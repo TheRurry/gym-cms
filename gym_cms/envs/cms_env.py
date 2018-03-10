@@ -12,20 +12,20 @@ class CmsEnv(gym.Env):
         self.reset()
 
     def reset(self):
-        while len(mshards) < 20:
+        while len(self.mshards) < 20:
 	    new_pos = [rnd.randint(0,63), rnd.randint(0,63)]
-            if new_pos not in mshards:
-                mshards.append(new_pos)
-        marines = np.random.rand(64, size = (20, 2))
-        step = 0
+            if new_pos not in self.mshards:
+                self.mshards.append(new_pos)
+        self.marines = np.random.rand(64, size = (20, 2))
+        self.step = 0
         return (self.marines, self.mshards)
 
     def step(self, action):
         reward = 0
 
-        for marine in marines:
-            if marine in mshard:
-                mshard.remove(marine)
+        for marine in self.marines:
+            if marine in self.mshard:
+                self.mshard.remove(marine)
                 reward += 1
 
         action = [-1,-1]
@@ -35,25 +35,25 @@ class CmsEnv(gym.Env):
         # Apply action
         for x in range(0,2):
             if actions[x] == 0: # UP
-                marines[x][1] -= 1
+                self.marines[x][1] -= 1
             elif actions[x] == 1: # DOWN
-                marines[x][1] += 1
+                self.marines[x][1] += 1
             elif actions[x] == 2: # LEFT
-                marines[x][0] -= 1
+                self.marines[x][0] -= 1
             elif actions[x] == 3: # RIGHT
-                marines[x][0] += 1
+                self.marines[x][0] += 1
 
         # Check to see if marine has gone out of the map. Assume map is square
         for x in range(0,2):
             for y in range(0,2):
-                if marines[x][y] >= 64:
-                    marines[x][y] = 63
-                elif marines[x][y] < 0:
-                    marines[x][y] = 0
+                if self.marines[x][y] >= 64:
+                    self.marines[x][y] = 63
+                elif self.marines[x][y] < 0:
+                    self.marines[x][y] = 0
 
-        step += 1
+        self.step += 1
         done = False
-        if step == 240:
+        if self.step == 240:
             done = True
 
         state = (self.marines, self.mshards)
