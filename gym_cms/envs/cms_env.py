@@ -29,7 +29,7 @@ class CmsEnv(gym.Env):
                 reward += 1
           
         action = [-1,-1]
-        actions[0] = action / 4
+        actions[0] = action // 4
         actions[1] = action % 4
       
         for x in range(0,2):
