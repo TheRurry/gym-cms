@@ -39,19 +39,14 @@ class CmsEnv(gym.Env):
         self.steps = 0
         return self.observation()
 
+    # TODO change this
     def observation(self):
         inside = [EMPTY] * WIDTH
         observation = [inside] * HEIGHT
         for shard in self.mshards:
             observation[shard[1]][shard[0]] = MINERAL
         for marine in self.marines:
-<<<<<<< HEAD
             observation[marine[1]][marine[0]] = MARINE
-=======
-            observation[marine[0] + HEIGHT * marine[1]] = MARINE
-        # for x in range(5):
-        #     print(observation[5 * x], "" ,  observation[5 * x + 1], "" ,observation[5 * x + 2], "" ,observation[5 * x + 3], "" ,observation[5 * x + 4])
->>>>>>> 733be4d5c8d8019f0c9ec1c40abbd970fd2e6e67
         return np.array(observation)
 
     def step(self, action):
