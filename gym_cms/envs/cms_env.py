@@ -13,7 +13,7 @@ class CmsEnv(gym.Env):
 
     def reset(self):
         while len(self.mshards) < 20:
-	    new_pos = [rnd.randint(0,63), rnd.randint(0,63)]
+            new_pos = [rnd.randint(0,63), rnd.randint(0,63)]
             if new_pos not in self.mshards:
                 self.mshards.append(new_pos)
         self.marines = np.random.rand(64, size = (20, 2))
