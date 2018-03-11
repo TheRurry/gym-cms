@@ -7,8 +7,8 @@ EMPTY = 0
 MARINE = 1
 MINERAL = 2
 
-HEIGHT = 64
-WIDTH = 64
+HEIGHT = 32
+WIDTH = 32
 
 class CmsEnv(gym.Env):
     def __init__(self):
@@ -24,11 +24,11 @@ class CmsEnv(gym.Env):
         self.mshards = []
 
         while len(self.mshards) < 20:
-            new_pos = [rnd.randint(0,63), rnd.randint(0,63)]
+            new_pos = [rnd.randint(0,HEIGHT - 1), rnd.randint(0,HEIGHT - 1)]
             if new_pos not in self.mshards:
                 self.mshards.append(new_pos)
-        self.marines.append([rnd.randint(0,63), rnd.randint(0,63)])
-        self.marines.append([rnd.randint(0,63), rnd.randint(0,63)])
+        self.marines.append([rnd.randint(0,WIDTH - 1), rnd.randint(0,HEIGHT - 1)])
+        self.marines.append([rnd.randint(0,WIDTH - 1), rnd.randint(0,HEIGHT - 1)])
         self.steps = 0
         return self.observation()
 
@@ -76,14 +76,14 @@ class CmsEnv(gym.Env):
         # Check to see if marine has gone out of the map. Assume map is square
         for x in range(0,2):
             for y in range(0,2):
-                if self.marines[x][y] >= 64:
-                    self.marines[x][y] = 63
+                if self.marines[x][y] >= HEIGHT:
+                    self.marines[x][y] = HEIGHT - 1
                 elif self.marines[x][y] < 0:
                     self.marines[x][y] = 0
 
         self.steps += 1
         done = False
-        if self.steps == 240 and len(self.mshards) == 0:
+        if self.steps == 240 or len(self.mshards) == 0:
             done = True
 
         state = self.observation()
