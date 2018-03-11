@@ -16,7 +16,7 @@ class CmsEnv(gym.Env):
             new_pos = [rnd.randint(0,63), rnd.randint(0,63)]
             if new_pos not in self.mshards:
                 self.mshards.append(new_pos)
-        self.marines = np.random.rand(64, size = (20, 2))
+        self.marines = np.random.randint(64, size = (20, 2))
         self.step = 0
         return (self.marines, self.mshards)
 
