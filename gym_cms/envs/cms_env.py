@@ -38,7 +38,7 @@ class CmsEnv(gym.Env):
         return observation
 
     def step(self, action):
-        print("-------- new_step -----------")
+        print("-------- NEW STEP --------")
 
         reward = 0
 
@@ -55,7 +55,7 @@ class CmsEnv(gym.Env):
         for zombie in zombies:
             self.mshards.remove(zombie)
 
-        action = [-1,-1]
+        actions = [-1,-1]
         actions[0] = action // 4
         actions[1] = action % 4
 
