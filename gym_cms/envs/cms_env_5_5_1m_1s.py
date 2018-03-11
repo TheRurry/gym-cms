@@ -13,8 +13,7 @@ WIDTH = 5
 class CmsEnv(gym.Env):
     def __init__(self):
         self.action_space = spaces.Discrete(4)
-        # self.observation_space = spaces.Box(low=np.array([0] * WIDTH * HEIGHT), high=np.array([2] * WIDTH * HEIGHT))
-        self.observation_space = spaces.Box(low=0, high=2, shape=(HEIGHT, WIDTH))
+        self.observation_space = spaces.Box(low=np.array([0] * WIDTH * HEIGHT), high=np.array([2] * WIDTH * HEIGHT))
         self.marines = []
         self.mshards = []
         self.steps = 0
@@ -40,18 +39,13 @@ class CmsEnv(gym.Env):
         return self.observation()
 
     def observation(self):
-        inside = [EMPTY] * WIDTH
-        observation = [inside] * HEIGHT
+        observation = [EMPTY] * WIDTH * HEIGHT
         for shard in self.mshards:
-            observation[shard[1]][shard[0]] = MINERAL
+            observation[shard[0] + HEIGHT * shard[1]] = MINERAL
         for marine in self.marines:
-<<<<<<< HEAD
-            observation[marine[1]][marine[0]] = MARINE
-=======
             observation[marine[0] + HEIGHT * marine[1]] = MARINE
         # for x in range(5):
         #     print(observation[5 * x], "" ,  observation[5 * x + 1], "" ,observation[5 * x + 2], "" ,observation[5 * x + 3], "" ,observation[5 * x + 4])
->>>>>>> 733be4d5c8d8019f0c9ec1c40abbd970fd2e6e67
         return np.array(observation)
 
     def step(self, action):
