@@ -38,7 +38,7 @@ class CmsEnv(gym.Env):
             observation[shard[0] + HEIGHT * shard[1]] = MINERAL
         for marine in self.marines:
             observation[marine[0] + HEIGHT * marine[1]] = MARINE
-        return observation
+        return np.array(observation)
 
     def step(self, action):
         print("-------- NEW STEP --------")
@@ -47,6 +47,8 @@ class CmsEnv(gym.Env):
 
         zombies = []
 
+        print(self.steps)
+        print(action)
         print(self.marines)
         print(self.mshards)
 
