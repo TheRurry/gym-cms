@@ -61,7 +61,8 @@ class CmsEnv(gym.Env):
                 reward += 1
 
         for zombie in zombies:
-            self.mshards.remove(zombie)
+            if zombie in mshards:
+                self.mshards.remove(zombie)
 
         actions = [-1,-1]
         actions[0] = action // 4
