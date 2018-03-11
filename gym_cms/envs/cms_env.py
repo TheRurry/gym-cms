@@ -24,7 +24,8 @@ class CmsEnv(gym.Env):
             new_pos = [rnd.randint(0,63), rnd.randint(0,63)]
             if new_pos not in self.mshards:
                 self.mshards.append(new_pos)
-        self.marines = np.random.randint(64, size = (20, 2))
+        self.marines.append([rnd.randint(0,63), rnd.randint(0,63)])
+        self.marines.append([rnd.randint(0,63), rnd.randint(0,63)])
         self.steps = 0
         return self.observation()
 
@@ -37,12 +38,22 @@ class CmsEnv(gym.Env):
         return observation
 
     def step(self, action):
+        print("-------- new_step -----------")
+
         reward = 0
+
+        zombies = []
+
+        print(self.marines)
+        print(self.mshards)
 
         for marine in self.marines:
             if marine in self.mshards:
-                self.mshards.remove(marine)
+                zombies.append(marine)
                 reward += 1
+        
+        for zombie in zombies:
+            self.mshards.remove(zombie)
 
         action = [-1,-1]
         actions[0] = action // 4
