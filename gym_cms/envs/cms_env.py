@@ -41,19 +41,17 @@ class CmsEnv(gym.Env):
         return np.array(observation)
 
     def step(self, action):
-        print("-------- NEW STEP --------")
+        # print("-------- NEW STEP --------")
 
         reward = 0
 
         zombies = []
 
+        # print("Step:", self.steps)
         # print(self.steps)
         # print(action)
         # print(self.marines)
         # print(self.mshards)
-
-        print("Step:", self.steps)
-        print("Rem Shards:", len(self.mshards))
 
         for marine in self.marines:
             if marine in self.mshards:
@@ -61,7 +59,7 @@ class CmsEnv(gym.Env):
                 reward += 1
 
         for zombie in zombies:
-            if zombie in mshards:
+            if zombie in self.mshards:
                 self.mshards.remove(zombie)
 
         actions = [-1,-1]
@@ -91,6 +89,7 @@ class CmsEnv(gym.Env):
         done = False
         if self.steps == 240 or len(self.mshards) == 0:
             done = True
+            print("Rem Shards:", len(self.mshards))
 
         state = self.observation()
         return state, reward, done, {}
