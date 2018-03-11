@@ -41,7 +41,7 @@ class CmsEnv(gym.Env):
         return np.array(observation)
 
     def step(self, action):
-        print("-------- NEW STEP --------")
+        # print("-------- NEW STEP --------")
 
         reward = 0
 
@@ -50,8 +50,8 @@ class CmsEnv(gym.Env):
         # print("Step:", self.steps)
         # print(self.steps)
         # print(action)
-        print(self.marines)
-        print(self.mshards)
+        # print(self.marines)
+        # print(self.mshards)
 
         # See if marine/s collides with a shard/s
         for marine in self.marines:
