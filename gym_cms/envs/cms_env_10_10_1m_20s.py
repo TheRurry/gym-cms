@@ -7,12 +7,12 @@ EMPTY = 0
 MARINE = 1
 MINERAL = 2
 
-HEIGHT = 32
-WIDTH = 32
+HEIGHT = 10
+WIDTH = 10
 
 class CmsEnv(gym.Env):
     def __init__(self):
-        self.action_space = spaces.Discrete(16)
+        self.action_space = spaces.Discrete(4)
         self.observation_space = spaces.Box(low=np.array([0] * WIDTH * HEIGHT), high=np.array([2] * WIDTH * HEIGHT))
         self.marines = []
         self.mshards = []
@@ -28,7 +28,7 @@ class CmsEnv(gym.Env):
             if new_pos not in self.mshards:
                 self.mshards.append(new_pos)
         self.marines.append([rnd.randint(0,WIDTH - 1), rnd.randint(0,HEIGHT - 1)])
-        self.marines.append([rnd.randint(0,WIDTH - 1), rnd.randint(0,HEIGHT - 1)])
+        # self.marines.append([rnd.randint(0,WIDTH - 1), rnd.randint(0,HEIGHT - 1)])
         self.steps = 0
         return self.observation()
 
@@ -53,37 +53,36 @@ class CmsEnv(gym.Env):
         # print(self.marines)
         # print(self.mshards)
 
+        # See if marine/s collides with a shard/s
         for marine in self.marines:
             if marine in self.mshards:
                 zombies.append(marine)
                 reward += 1
 
+        #  Remove the shards that have been collided with
         for zombie in zombies:
             if zombie in self.mshards:
                 self.mshards.remove(zombie)
 
-        actions = [-1,-1]
-        actions[0] = action // 4
-        actions[1] = action % 4
-
         # Apply action
-        for x in range(0,2):
-            if actions[x] == 0: # UP
-                self.marines[x][1] -= 1
-            elif actions[x] == 1: # DOWN
-                self.marines[x][1] += 1
-            elif actions[x] == 2: # LEFT
-                self.marines[x][0] -= 1
-            elif actions[x] == 3: # RIGHT
-                self.marines[x][0] += 1
+        if action == 0: # UP
+            self.marines[0][1] -= 1
+        elif action == 1: # DOWN
+            self.marines[0][1] += 1
+        elif action == 2: # LEFT
+            self.marines[0][0] -= 1
+        elif action == 3: # RIGHT
+            self.marines[0][0] += 1
 
         # Check to see if marine has gone out of the map. Assume map is square
-        for x in range(0,2):
-            for y in range(0,2):
-                if self.marines[x][y] >= HEIGHT:
-                    self.marines[x][y] = HEIGHT - 1
-                elif self.marines[x][y] < 0:
-                    self.marines[x][y] = 0
+        if self.marines[0][1] >= HEIGHT:
+            self.marines[0][1] = HEIGHT - 1
+        elif self.marines[0][1] < 0:
+            self.marines[0][1] = 0
+        if self.marines[0][0] >= WIDTH:
+            self.marines[0][0] = WIDTH - 1
+        elif self.marines[0][0] < 0:
+            self.marines[0][0] = 0
 
         self.steps += 1
         done = False
