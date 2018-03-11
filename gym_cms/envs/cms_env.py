@@ -54,7 +54,7 @@ class CmsEnv(gym.Env):
             if marine in self.mshards:
                 zombies.append(marine)
                 reward += 1
-        
+
         for zombie in zombies:
             self.mshards.remove(zombie)
 
@@ -83,7 +83,7 @@ class CmsEnv(gym.Env):
 
         self.steps += 1
         done = False
-        if self.steps == 240:
+        if self.steps == 240 and len(self.mshards) == 0:
             done = True
 
         state = self.observation()
