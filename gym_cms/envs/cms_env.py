@@ -20,6 +20,9 @@ class CmsEnv(gym.Env):
         self.step = 0
         return (self.marines, self.mshards)
 
+    def observation(self):
+        pass
+
     def step(self, action):
         reward = 0
 
