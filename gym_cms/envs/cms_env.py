@@ -16,7 +16,7 @@ class CmsEnv(gym.Env):
         self.observation_space = spaces.Box(low=np.array([0] * WIDTH * HEIGHT), high=np.array([2] * WIDTH * HEIGHT))
         self.marines = []
         self.mshards = []
-        self.step = 0
+        self.steps = 0
         self.reset()
 
     def reset(self):
@@ -25,7 +25,7 @@ class CmsEnv(gym.Env):
             if new_pos not in self.mshards:
                 self.mshards.append(new_pos)
         self.marines = np.random.randint(64, size = (20, 2))
-        self.step = 0
+        self.steps = 0
         return self.observation()
 
     def observation(self):
@@ -40,8 +40,8 @@ class CmsEnv(gym.Env):
         reward = 0
 
         for marine in self.marines:
-            if marine in self.mshard:
-                self.mshard.remove(marine)
+            if marine in self.mshards:
+                self.mshards.remove(marine)
                 reward += 1
 
         action = [-1,-1]
@@ -67,9 +67,9 @@ class CmsEnv(gym.Env):
                 elif self.marines[x][y] < 0:
                     self.marines[x][y] = 0
 
-        self.step += 1
+        self.steps += 1
         done = False
-        if self.step == 240:
+        if self.steps == 240:
             done = True
 
         state = self.observation()
