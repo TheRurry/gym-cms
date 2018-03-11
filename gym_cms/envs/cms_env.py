@@ -20,6 +20,9 @@ class CmsEnv(gym.Env):
         self.reset()
 
     def reset(self):
+        self.marines = []
+        self.mshards = []
+
         while len(self.mshards) < 20:
             new_pos = [rnd.randint(0,63), rnd.randint(0,63)]
             if new_pos not in self.mshards:
