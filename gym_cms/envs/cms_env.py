@@ -13,6 +13,7 @@ WIDTH = 64
 class CmsEnv(gym.Env):
     def __init__(self):
         self.action_space = spaces.Discrete(16)
+        self.observation_space = spaces.Box(low=np.array([0] * WIDTH * HEIGHT), high=np.array([2] * WIDTH * HEIGHT))
         self.marines = []
         self.mshards = []
         self.step = 0
