@@ -47,10 +47,13 @@ class CmsEnv(gym.Env):
 
         zombies = []
 
-        print(self.steps)
-        print(action)
-        print(self.marines)
-        print(self.mshards)
+        # print(self.steps)
+        # print(action)
+        # print(self.marines)
+        # print(self.mshards)
+
+        print("Step:", self.steps)
+        print("Rem Shards:", len(self.mshards))
 
         for marine in self.marines:
             if marine in self.mshards:
