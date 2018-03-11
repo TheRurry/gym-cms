@@ -3,6 +3,13 @@ import numpy as np
 import gym
 from gym import spaces
 
+EMPTY = 0
+MARINE = 1
+MINERAL = 2
+
+HEIGHT = 64
+WIDTH = 64
+
 class CmsEnv(gym.Env):
     def __init__(self):
         self.action_space = spaces.Discrete(16)
@@ -18,10 +25,15 @@ class CmsEnv(gym.Env):
                 self.mshards.append(new_pos)
         self.marines = np.random.randint(64, size = (20, 2))
         self.step = 0
-        return (self.marines, self.mshards)
+        return self.observation()
 
     def observation(self):
-        pass
+        observation = [EMPTY] * WIDTH * HEIGHT
+        for shard in self.mshards:
+            observation[shard[0] + HEIGHT * shard[1]] = MINERAL
+        for marine in self.marines:
+            observation[marine[0] + HEIGHT * marine[1]] = MARINE
+        return observation
 
     def step(self, action):
         reward = 0
@@ -59,5 +71,5 @@ class CmsEnv(gym.Env):
         if self.step == 240:
             done = True
 
-        state = (self.marines, self.mshards)
+        state = self.observation()
         return state, reward, done, {}
