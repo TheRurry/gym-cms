@@ -7,8 +7,8 @@ EMPTY = 0
 MARINE = 1
 MINERAL = 2
 
-HEIGHT = 16
-WIDTH = 16
+HEIGHT = 5
+WIDTH = 5
 
 class CmsEnv(gym.Env):
     def __init__(self):
@@ -23,11 +23,17 @@ class CmsEnv(gym.Env):
         self.marines = []
         self.mshards = []
 
-        while len(self.mshards) < 20:
+        while len(self.mshards) < 1:
             new_pos = [rnd.randint(0,HEIGHT - 1), rnd.randint(0,HEIGHT - 1)]
             if new_pos not in self.mshards:
                 self.mshards.append(new_pos)
-        self.marines.append([rnd.randint(0,WIDTH - 1), rnd.randint(0,HEIGHT - 1)])
+
+        while len(self.marines) < 1:
+            new_pos = [rnd.randint(0,HEIGHT - 1), rnd.randint(0,HEIGHT - 1)]
+            if new_pos not in self.mshards:
+                self.marines.append(new_pos)
+
+        # self.marines.append([rnd.randint(0,WIDTH - 1), rnd.randint(0,HEIGHT - 1)])
         self.steps = 0
         return self.observation()
 
@@ -76,7 +82,7 @@ class CmsEnv(gym.Env):
 
         self.steps += 1
         done = False
-        if self.steps == 240 or len(self.mshards) == 0:
+        if self.steps == 25 or len(self.mshards) == 0:
             done = True
             print("Rem Shards:", len(self.mshards))
 
